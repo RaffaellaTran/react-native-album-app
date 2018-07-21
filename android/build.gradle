@@ -1,0 +1,37 @@
+// Top-level build file where you can add configuration options common to all sub-projects/modules.
+
+buildscript {
+    repositories {
+        jcenter()
+        google()
+    }
+    dependencies {
+        classpath 'com.android.tools.build:gradle:3.1.1'
+
+        // NOTE: Do not place your application dependencies here; they belong
+        // in the individual module build.gradle files
+    }
+}
+
+allprojects {
+    repositories {
+        mavenLocal()
+        jcenter()
+        maven {
+            // All of React Native (JS, Obj-C sources, Android binaries) is installed from npm
+            url "$rootDir/../node_modules/react-native/android"
+        }
+        google()
+    }
+}
+
+task startReactNative(type: Exec) {
+    workingDir "../../"
+    commandLine  'cmd', '/c', 'react-native', 'start'
+    println "Working Directory for React is: $workingDir"
+    standardOutput = new ByteArrayOutputStream()
+    ext.output = {
+        println "React-Native Output: " + standardOutput.toString()
+        return standardOutput.toString()
+    }
+}
